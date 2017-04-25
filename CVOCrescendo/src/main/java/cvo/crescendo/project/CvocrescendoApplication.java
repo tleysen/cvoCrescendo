@@ -2,28 +2,21 @@ package cvo.crescendo.project;
 
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.CourseInfoResponse;
+import cvo.crescendo.project.repositories.CourseRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate; //MVC Spring
-import org.springframework.context.annotation.Bean;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -32,12 +25,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+
 @SpringBootApplication
 public class CvocrescendoApplication {
-    @Autowired
-    private static CvocresendoRepository repository;
 
-	private static final Logger log = LoggerFactory.getLogger(CvocrescendoApplication.class);
+    //private static final Logger log = LoggerFactory.getLogger(CvocrescendoApplication.class);
 
     public static String hmacDigest(String msg, String keyString, String algo) {
         String digest = null;
@@ -64,64 +56,70 @@ public class CvocrescendoApplication {
         return digest;
     }
 
-	public static void main(String[] args) {
-        SpringApplication.run(CvocrescendoApplication.class, args);
+    public static void main(String[] args) {
+        new SpringApplicationBuilder(CvocrescendoApplication.class).run(args);
+    }
 
-        RestTemplate restTemplate = new RestTemplate();
+    @Bean
+    CommandLineRunner runOnStartup(CourseRepository courseRepository) {
+        return (args) -> {
 
-        HttpHeaders requestHeaders = new HttpHeaders();
+            RestTemplate restTemplate = new RestTemplate();
 
-        JSONObject request = new JSONObject();
-        try {
-            request.put("schoolYear", "2014-15");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            HttpHeaders requestHeaders = new HttpHeaders();
 
-        String url = "https://testservices.informatsoftware.be/icursisten/1/course";
+            JSONObject request = new JSONObject();
+            try {
+                request.put("schoolYear", "2014-15");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date today = new Date();
-        SimpleDateFormat UTC_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        UTC_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String output = UTC_FORMAT.format(today);
-        String date = DATE_FORMAT.format(today);
+            String url = "https://testservices.informatsoftware.be/icursisten/1/course";
 
-        String message = "verb=POST&timestamp=" + date + "&url=" + url + "&instellingsnr=128521";
-        String hmac = hmacDigest(message, "3FBrk5gxgbEV5Hgf4pO9pc61LyGV7KxJNi4EJeWA4oCPc0wbfvtDqUGPfVzmsq6PC2Y0A1", "HmacSHA256");
+            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+            DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date today = new Date();
+            SimpleDateFormat UTC_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            UTC_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+            String output = UTC_FORMAT.format(today);
+            String date = DATE_FORMAT.format(today);
 
-        requestHeaders.add("Timestamp", output);
-        requestHeaders.add("InstellingsNr", "128521");
-        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add("Authentication", "pubKey_WPQkP8ulx8BCmopSH2lMmCq0JRXBcj" + ":" + hmac);
+            String message = "verb=POST&timestamp=" + date + "&url=" + url + "&instellingsnr=128521";
+            String hmac = hmacDigest(message, "3FBrk5gxgbEV5Hgf4pO9pc61LyGV7KxJNi4EJeWA4oCPc0wbfvtDqUGPfVzmsq6PC2Y0A1", "HmacSHA256");
 
-        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), requestHeaders);
+            requestHeaders.add("Timestamp", output);
+            requestHeaders.add("InstellingsNr", "128521");
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            requestHeaders.add("Authentication", "pubKey_WPQkP8ulx8BCmopSH2lMmCq0JRXBcj" + ":" + hmac);
 
-        List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
+            HttpEntity<?> requestEntity = new HttpEntity(request.toString(), requestHeaders);
 
+            List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
 
-        repository.deleteAll();
+            for (Course c : courses) {
+                courseRepository.save(c);
 
-        // save a couple of customers
-        repository.save(new Course("Alice"));
-        repository.save(new Course("Bob"));
+            }
 
-        // fetch all customers
-        log.info("Course found with findAll():");
-        log.info("-------------------------------");
-        for (Course course : repository.findAll()) {
-            log.info(course.toString());
-        }
+            // fetch all customers
+            System.out.println("Course found with findAll():");
+            System.out.println("-------------------------------");
+            for (Course course : courseRepository.findAll()) {
+                System.out.println(course.toString());
+            }
 
-        // fetch an individual customer
-        log.info("Course found with findByName('Alice'):");
-        log.info("--------------------------------");
-        log.info((repository.findByName("Alice")).toString());
+            // fetch an individual customer
+            //System.out.println("Course found with findByName('Alice'):");
+            //System.out.println("--------------------------------");
+            //System.out.println((courseRepository.findByName("Alice")).toString());
+//
+            //for (Course c : courses) {
+            //    System.out.println((c.toString()));
+//
+            //}
 
-        for (Course c : courses) {
-            log.info(c.toString());
-        }
+        };
     }
 
 }
