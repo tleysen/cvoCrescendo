@@ -41,6 +41,7 @@ public class Course {
     private Teacher mainTeacher;
     private Teacher otherTeachers;
     private List<Modules> modules;
+    private Location location;
 
     public Course() {
 
@@ -49,6 +50,7 @@ public class Course {
     public Course(String name) {
         this.name = name;
     }
+
 
     public String getId() {
         return id;
@@ -218,6 +220,14 @@ public class Course {
         this.modules = modules;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
@@ -242,6 +252,7 @@ public class Course {
                 ", mainTeacher=" + mainTeacher +
                 ", otherTeachers=" + otherTeachers +
                 ", modules=" + modules +
+                ", location=" + location +
                 '}';
     }
 }
