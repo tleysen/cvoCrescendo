@@ -6,11 +6,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestTemplate; //MVC Spring
+import org.springframework.context.annotation.Bean;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -24,6 +30,9 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 public class CvocrescendoApplication {
+
+    @Autowired
+    private CvocresendoRepository repository;
 
 	private static final Logger log = LoggerFactory.getLogger(CvocrescendoApplication.class);
 
@@ -53,7 +62,9 @@ public class CvocrescendoApplication {
     }
 
 	public static void main(String[] args) {
-		RestTemplate restTemplate = new RestTemplate();
+        SpringApplication.run(CvocrescendoApplication.class, args);
+
+        RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders requestHeaders = new HttpHeaders();
 
@@ -74,22 +85,40 @@ public class CvocrescendoApplication {
         String output = UTC_FORMAT.format(today);
         String date = DATE_FORMAT.format(today);
 
-        String message = "verb=POST&timestamp="+date+"&url="+url+"&instellingsnr=128521";
+        String message = "verb=POST&timestamp=" + date + "&url=" + url + "&instellingsnr=128521";
         String hmac = hmacDigest(message, "3FBrk5gxgbEV5Hgf4pO9pc61LyGV7KxJNi4EJeWA4oCPc0wbfvtDqUGPfVzmsq6PC2Y0A1", "HmacSHA256");
 
-        requestHeaders.add("Timestamp",output);
-        requestHeaders.add("InstellingsNr","128521");
+        requestHeaders.add("Timestamp", output);
+        requestHeaders.add("InstellingsNr", "128521");
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add("Authentication", "pubKey_WPQkP8ulx8BCmopSH2lMmCq0JRXBcj"+":"+ hmac);
+        requestHeaders.add("Authentication", "pubKey_WPQkP8ulx8BCmopSH2lMmCq0JRXBcj" + ":" + hmac);
 
-        HttpEntity<?> requestEntity = new HttpEntity(request.toString(),requestHeaders);
+        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), requestHeaders);
 
         List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
 
+    }
+
+    repository.deleteAll();
+
+    // save a couple of customers
+        repository.save(new Course("Alice"));
+        repository.save(new Course("Bob"));
+
+    // fetch all customers
+        log.info("Course found with findAll():");
+        log.info("-------------------------------");
+        for (Course course : repository.findAll()) {
+        log.info(course.toString());
+    }
+
+    // fetch an individual customer
+        log.info("Course found with findByName('Alice'):");
+        log.info("--------------------------------");
+        log.info((repository.findByName("Alice")).toString());
 
         for (Course c : courses) {
-            log.info(c.toString());
-        }
-
+        log.info(c.toString());
     }
+
 }

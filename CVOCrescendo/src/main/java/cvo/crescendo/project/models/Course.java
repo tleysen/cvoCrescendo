@@ -19,7 +19,6 @@ import javax.persistence.Id;
 public class Course {
 
     @Id
-    @GeneratedValue
     private String id;
 
     private String name;
@@ -44,6 +43,11 @@ public class Course {
     private List<Modules> modules;
 
     public Course() {
+
+    }
+
+    public Course(String name) {
+        this.name = name;
     }
 
     public String getId() {
