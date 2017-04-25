@@ -1,13 +1,13 @@
 package cvo.crescendo.project.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by Alexander on 21/04/2017.
  */
 public class Modules {
 
+    @Id
     private String id;
     private String exchangeCode;
     private String code;

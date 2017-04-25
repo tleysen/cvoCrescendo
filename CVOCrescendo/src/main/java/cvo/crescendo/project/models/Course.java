@@ -7,15 +7,12 @@ import java.util.List;
 //import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 //import jackson-databind-master;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
 
 /**
  * Created by Alexander on 21/04/2017.
  */
-@Entity
 public class Course {
 
     @Id

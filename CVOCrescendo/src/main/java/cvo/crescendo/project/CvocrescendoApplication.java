@@ -10,8 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -30,9 +34,8 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 public class CvocrescendoApplication {
-
     @Autowired
-    private CvocresendoRepository repository;
+    private static CvocresendoRepository repository;
 
 	private static final Logger log = LoggerFactory.getLogger(CvocrescendoApplication.class);
 
@@ -97,28 +100,28 @@ public class CvocrescendoApplication {
 
         List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
 
-    }
 
-    repository.deleteAll();
+        repository.deleteAll();
 
-    // save a couple of customers
+        // save a couple of customers
         repository.save(new Course("Alice"));
         repository.save(new Course("Bob"));
 
-    // fetch all customers
+        // fetch all customers
         log.info("Course found with findAll():");
         log.info("-------------------------------");
         for (Course course : repository.findAll()) {
-        log.info(course.toString());
-    }
+            log.info(course.toString());
+        }
 
-    // fetch an individual customer
+        // fetch an individual customer
         log.info("Course found with findByName('Alice'):");
         log.info("--------------------------------");
         log.info((repository.findByName("Alice")).toString());
 
         for (Course c : courses) {
-        log.info(c.toString());
+            log.info(c.toString());
+        }
     }
 
 }
