@@ -110,14 +110,9 @@ public class CvocrescendoApplication {
             }
 
             // fetch an individual customer
-            //System.out.println("Course found with findByName('Alice'):");
-            //System.out.println("--------------------------------");
-            //System.out.println((courseRepository.findByName("Alice")).toString());
-//
-            //for (Course c : courses) {
-            //    System.out.println((c.toString()));
-//
-            //}
+            System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
+            System.out.println("--------------------------------");
+            System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
 
         };
     }
