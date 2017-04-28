@@ -99,7 +99,6 @@ public class CvocrescendoApplication {
 
             for (Course c : courses) {
                 courseRepository.save(c);
-
             }
 
             // fetch all customers
@@ -113,8 +112,6 @@ public class CvocrescendoApplication {
             System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
             System.out.println("--------------------------------");
             System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
-
         };
     }
-
 }
