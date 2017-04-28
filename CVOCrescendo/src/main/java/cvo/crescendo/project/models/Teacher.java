@@ -23,7 +23,6 @@ public class Teacher {
     private List<String> email;
     private List<String> phone;
 
-
     public Teacher() {
     }
 

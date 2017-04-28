@@ -97,21 +97,23 @@ public class CvocrescendoApplication {
 
             List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
 
+            //alle courses in mongoDB steken
             for (Course c : courses) {
                 courseRepository.save(c);
             }
 
             // fetch all customers
-            System.out.println("Course found with findAll():");
-            System.out.println("-------------------------------");
-            for (Course course : courseRepository.findAll()) {
-                System.out.println(course.toString());
-            }
+            //System.out.println("Course found with findAll():");
+            //System.out.println("-------------------------------");
+            //for (Course course : courseRepository.findAll()) {
+            //    System.out.println(course.toString());
+            //}
 
             // fetch an individual customer
-            System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
-            System.out.println("--------------------------------");
-            System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
+            //System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
+            //System.out.println("--------------------------------");
+            //System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
+
         };
     }
 }
