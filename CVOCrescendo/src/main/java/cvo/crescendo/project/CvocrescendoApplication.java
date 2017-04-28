@@ -1,5 +1,9 @@
 package cvo.crescendo.project;
 
+import V3.V3BindingStub;
+import V3.V3Port;
+import V3.V3PortProxy;
+import V3.V3Service;
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.CourseInfoResponse;
 import cvo.crescendo.project.repositories.CourseRepository;
@@ -60,6 +64,7 @@ public class CvocrescendoApplication {
         new SpringApplicationBuilder(CvocrescendoApplication.class).run(args);
     }
 
+
     @Bean
     CommandLineRunner runOnStartup(CourseRepository courseRepository) {
         return (args) -> {
@@ -112,6 +117,25 @@ public class CvocrescendoApplication {
             System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
             System.out.println("--------------------------------");
             System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
+
+
+            //------------------------------------
+            //SMARTSCHOOL
+            //------------------------------------
+
+            final String ACCESCODE = "f74ae6218a75cdd3cb48";
+            final String USERNAME = "Groep1";
+            final String PASSWORD = "CVOtest123!!";
+            final int USERTYPE = 0;
+            final String URI = "https://cvo-crescendo-slo.smartschool.be";
+
+            try {
+                V3Port v3Port = new V3PortProxy();
+                v3Port.savePassword(ACCESCODE,USERNAME,PASSWORD,USERTYPE);
+            }
+            catch(java.rmi.RemoteException ex){
+                System.out.print(ex);
+            }
         };
     }
 }
