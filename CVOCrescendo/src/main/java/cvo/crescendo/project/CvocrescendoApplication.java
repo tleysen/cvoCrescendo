@@ -1,5 +1,9 @@
 package cvo.crescendo.project;
 
+import V3.V3BindingStub;
+import V3.V3Port;
+import V3.V3PortProxy;
+import V3.V3Service;
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.CourseInfoResponse;
 import cvo.crescendo.project.repositories.CourseRepository;
@@ -18,9 +22,11 @@ import org.springframework.web.client.RestTemplate; //MVC Spring
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -59,6 +65,7 @@ public class CvocrescendoApplication {
     public static void main(String[] args) {
         new SpringApplicationBuilder(CvocrescendoApplication.class).run(args);
     }
+
 
     @Bean
     CommandLineRunner runOnStartup(CourseRepository courseRepository) {
@@ -113,6 +120,35 @@ public class CvocrescendoApplication {
             //System.out.println("Course found with findByName('Lasser Pakket 1 di av (Jaar)'):");
             //System.out.println("--------------------------------");
             //System.out.println((courseRepository.findByName("Lasser Pakket 1 di av (Jaar)")).toString());
+
+
+
+
+            //------------------------------------
+            //SMARTSCHOOL
+            //------------------------------------
+
+            final String ACCESCODE = "f74ae6218a75cdd3cb48";
+            final String USERNAME = "groep1";
+            final String PASSWORD = "CVOtest123!";
+            final int USERTYPE = 0;
+            final String URI = "https://cvo-crescendo-slo.smartschool.be";
+
+            try {
+                V3Port v3Port = new V3PortProxy();
+                System.out.println(v3Port.getAllGroupsAndClasses(ACCESCODE));
+                System.out.println(v3Port.getUserDetails(ACCESCODE,"123"));
+
+                byte[] decodedBytes = Base64.getDecoder().decode(v3Port.getAllGroupsAndClasses(ACCESCODE).toString());
+                String decodedString = new String(decodedBytes);
+                System.out.println(decodedString);
+
+
+                System.out.println("succes");
+            }
+            catch(java.rmi.RemoteException ex){
+                System.out.print(ex);
+            }
 
         };
     }
