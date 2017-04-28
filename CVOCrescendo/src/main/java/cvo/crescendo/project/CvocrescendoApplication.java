@@ -22,9 +22,11 @@ import org.springframework.web.client.RestTemplate; //MVC Spring
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -124,14 +126,22 @@ public class CvocrescendoApplication {
             //------------------------------------
 
             final String ACCESCODE = "f74ae6218a75cdd3cb48";
-            final String USERNAME = "Groep1";
-            final String PASSWORD = "CVOtest123!!";
+            final String USERNAME = "groep1";
+            final String PASSWORD = "CVOtest123!";
             final int USERTYPE = 0;
             final String URI = "https://cvo-crescendo-slo.smartschool.be";
 
             try {
                 V3Port v3Port = new V3PortProxy();
-                v3Port.savePassword(ACCESCODE,USERNAME,PASSWORD,USERTYPE);
+                System.out.println(v3Port.getAllGroupsAndClasses(ACCESCODE));
+                System.out.println(v3Port.getUserDetails(ACCESCODE,"123"));
+
+                byte[] decodedBytes = Base64.getDecoder().decode(v3Port.getAllGroupsAndClasses(ACCESCODE).toString());
+                String decodedString = new String(decodedBytes);
+                System.out.println(decodedString);
+
+
+                System.out.println("succes");
             }
             catch(java.rmi.RemoteException ex){
                 System.out.print(ex);
