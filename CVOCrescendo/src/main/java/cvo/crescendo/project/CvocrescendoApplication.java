@@ -27,8 +27,8 @@ public class CvocrescendoApplication {
             //for (Course c : InformatConnector.Connect()) {
             //    courseRepository.save(c);
             //}
-
-            for (Student s : InformatConnector.Connect()) {
+            InformatConnector informatConnector = new InformatConnector();
+            for (Student s : informatConnector.getAllStudentsByYear()) {
                 studentRepository.save(s);
             }
             SmartschoolConnector.Connect();

@@ -21,14 +21,16 @@ import java.util.TimeZone;
  */
 public class InformatConnector {
 
-    public static List<Student> Connect() {
+
+
+    private HttpHeaders globalRequestHeaders = new HttpHeaders();
+    private final String BASE_URL= "https://testservices.informatsoftware.be/icursisten/1";
+
+
+    public void Connect(String url) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
 
-        RestTemplate restTemplate = new RestTemplate();
-
-
-        String url = "https://testservices.informatsoftware.be/icursisten/1/student";
 
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -47,6 +49,16 @@ public class InformatConnector {
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
         requestHeaders.add("Authentication", "pubKey_WPQkP8ulx8BCmopSH2lMmCq0JRXBcj" + ":" + hmac);
 
+        globalRequestHeaders = requestHeaders;
+    };
+
+    public List<Student> getAllStudentsByYear(){
+
+        String url = BASE_URL + "/student";
+        Connect(url);
+        RestTemplate restTemplate = new RestTemplate();
+
+
         JSONObject request = new JSONObject();
         try {
             request.put("schoolYear", "2016-17");
@@ -54,12 +66,11 @@ public class InformatConnector {
             e.printStackTrace();
         }
 
-        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), requestHeaders);
+        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), globalRequestHeaders);
 
-        //List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getStudents();
         List<Student> students = restTemplate.postForObject(url, requestEntity, StudentInfoResponse.class).getStudents();
 
         return students;
-        //return courses;
-    };
+    }
+
 }
