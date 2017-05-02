@@ -24,5 +24,4 @@ public class CourseResource {
     public Iterable<Course> getAllCourses(){
         return courseRepository.findAll();
     }
-
 }
