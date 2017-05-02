@@ -229,7 +229,7 @@ public class V3BindingStub extends org.apache.axis.client.Stub implements V3Port
         _operations[8] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
-        oper.setName("getCourses");
+        oper.setName("getStudents");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "accesscode"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
@@ -1061,9 +1061,9 @@ public class V3BindingStub extends org.apache.axis.client.Stub implements V3Port
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[9]);
         _call.setUseSOAPAction(true);
-        _call.setSOAPActionURI("https://cvo-crescendo-slo.smartschool.be/Webservices/V3#getCourses");
+        _call.setSOAPActionURI("https://cvo-crescendo-slo.smartschool.be/Webservices/V3#getStudents");
         _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
-        _call.setOperationName(new javax.xml.namespace.QName("https://cvo-crescendo-slo.smartschool.be/Webservices/V3", "getCourses"));
+        _call.setOperationName(new javax.xml.namespace.QName("https://cvo-crescendo-slo.smartschool.be/Webservices/V3", "getStudents"));
 
         setRequestHeaders(_call);
         setAttachments(_call);

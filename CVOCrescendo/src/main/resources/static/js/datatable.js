@@ -8,15 +8,8 @@ $(document).ready( function () {
             { "mData": "firstName" },
             { "mData": "lastName" },
             { "mData": "nickName" },
-            { "mData": "bankAccountNr" },
-            { "mData": "dateOfBirth" },
-            { "mData": "sex" },
-            { "mData": "loginName" },
-            { "mData": "password" },
-            { "mData": "email" },
-            { "mData": "phone" },
-            { "mData": "address" },
             { "mData": "stamNr" },
+            { "mData": "insz" },
         ]
     })
 });

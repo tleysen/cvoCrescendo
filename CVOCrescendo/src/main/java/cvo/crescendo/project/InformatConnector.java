@@ -2,6 +2,8 @@ package cvo.crescendo.project;
 
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.CourseInfoResponse;
+import cvo.crescendo.project.models.Student;
+import cvo.crescendo.project.models.StudentInfoResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -19,14 +21,14 @@ import java.util.TimeZone;
  */
 public class InformatConnector {
 
-    public static List<Course> Connect() {
+    public static List<Student> Connect() {
 
         HttpHeaders requestHeaders = new HttpHeaders();
 
         RestTemplate restTemplate = new RestTemplate();
 
 
-        String url = "https://testservices.informatsoftware.be/icursisten/1/course";
+        String url = "https://testservices.informatsoftware.be/icursisten/1/student";
 
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -47,15 +49,17 @@ public class InformatConnector {
 
         JSONObject request = new JSONObject();
         try {
-            request.put("schoolYear", "2014-15");
+            request.put("schoolYear", "2016-17");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         HttpEntity<?> requestEntity = new HttpEntity(request.toString(), requestHeaders);
 
-        List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
+        //List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getStudents();
+        List<Student> students = restTemplate.postForObject(url, requestEntity, StudentInfoResponse.class).getStudents();
 
-        return courses;
+        return students;
+        //return courses;
     };
 }
