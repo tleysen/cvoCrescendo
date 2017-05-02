@@ -28,7 +28,7 @@ public class CvocrescendoApplication {
             //    courseRepository.save(c);
             //}
             InformatConnector informatConnector = new InformatConnector();
-            for (Student s : informatConnector.getAllStudentsByYear()) {
+            for (Student s : informatConnector.getAllStudentsByYear("2000-2001")) {
                 studentRepository.save(s);
             }
             SmartschoolConnector.Connect();

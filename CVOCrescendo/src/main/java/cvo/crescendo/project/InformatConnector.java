@@ -52,7 +52,7 @@ public class InformatConnector {
         globalRequestHeaders = requestHeaders;
     };
 
-    public List<Student> getAllStudentsByYear(){
+    public List<Student> getAllStudentsByYear(String year){
 
         String url = BASE_URL + "/student";
         Connect(url);
@@ -61,7 +61,7 @@ public class InformatConnector {
 
         JSONObject request = new JSONObject();
         try {
-            request.put("schoolYear", "2016-17");
+            request.put("schoolYear", year);
         } catch (JSONException e) {
             e.printStackTrace();
         }
