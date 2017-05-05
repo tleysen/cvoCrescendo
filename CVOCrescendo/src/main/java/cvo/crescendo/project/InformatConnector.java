@@ -18,16 +18,12 @@ import java.util.TimeZone;
  */
 public class InformatConnector {
 
-
-
     private HttpHeaders globalRequestHeaders = new HttpHeaders();
     private final String BASE_URL = "https://testservices.informatsoftware.be/icursisten/1";
-
 
     public void Connect(String url) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
-
 
         SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
         DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));

@@ -1,6 +1,5 @@
 package cvo.crescendo.project;
 
-import cvo.crescendo.project.emails.SmtpMailSender;
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.Student;
 import cvo.crescendo.project.models.Teacher;
@@ -11,7 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
-
 
 @SpringBootApplication
 public class CvocrescendoApplication {
