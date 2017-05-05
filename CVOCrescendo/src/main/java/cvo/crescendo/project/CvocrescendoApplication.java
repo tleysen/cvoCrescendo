@@ -26,15 +26,17 @@ public class CvocrescendoApplication {
 
             InformatConnector informatConnector = new InformatConnector();
 
-            for (Student s : informatConnector.getAllStudentsByYear("2000-2001")) {
+            //year formatting is very important:
+
+            for (Student s : informatConnector.getAllStudentsByYear("2014-15")) {
                 studentRepository.save(s);
             }
 
-            for (Course c : informatConnector.getAllCoursesByYear("2000-2001")) {
+            for (Course c : informatConnector.getAllCoursesByYear("2014-15")) {
                 courseRepository.save(c);
             }
 
-            for (Teacher t : informatConnector.getAllTeachersByYear("2000-2001")) {
+            for (Teacher t : informatConnector.getAllTeachersByYear("2014-15")) {
                 teacherRepository.save(t);
             }
 
