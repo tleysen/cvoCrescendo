@@ -1,7 +1,5 @@
 package cvo.crescendo.project.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**

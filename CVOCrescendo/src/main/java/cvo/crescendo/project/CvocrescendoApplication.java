@@ -2,8 +2,10 @@ package cvo.crescendo.project;
 
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.Student;
+import cvo.crescendo.project.models.Teacher;
 import cvo.crescendo.project.repositories.CourseRepository;
 import cvo.crescendo.project.repositories.StudentRepository;
+import cvo.crescendo.project.repositories.TeacherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,7 +22,7 @@ public class CvocrescendoApplication {
     }
 
     @Bean
-    CommandLineRunner runOnStartup(CourseRepository courseRepository, StudentRepository studentRepository) {
+    CommandLineRunner runOnStartup(CourseRepository courseRepository, StudentRepository studentRepository, TeacherRepository teacherRepository) {
         return (args) -> {
 
             InformatConnector informatConnector = new InformatConnector();
@@ -31,6 +33,10 @@ public class CvocrescendoApplication {
 
             for (Course c : informatConnector.getAllCoursesByYear("2000-2001")) {
                 courseRepository.save(c);
+            }
+
+            for (Teacher t : informatConnector.getAllTeachersByYear("2000-2001")) {
+                teacherRepository.save(t);
             }
 
             //SmartschoolConnector.Connect();

@@ -1,9 +1,6 @@
 package cvo.crescendo.project;
 
-import cvo.crescendo.project.models.Course;
-import cvo.crescendo.project.models.CourseInfoResponse;
-import cvo.crescendo.project.models.Student;
-import cvo.crescendo.project.models.StudentInfoResponse;
+import cvo.crescendo.project.models.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -92,6 +89,27 @@ public class InformatConnector {
         List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
 
         return courses;
+    }
+
+    public List<Teacher> getAllTeachersByYear(String year){
+
+        String url = BASE_URL + "/teacher";
+        Connect(url);
+        RestTemplate restTemplate = new RestTemplate();
+
+
+        JSONObject request = new JSONObject();
+        try {
+            request.put("schoolYear", year);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), globalRequestHeaders);
+
+        List<Teacher> teachers = restTemplate.postForObject(url, requestEntity, TeacherInfoResponse.class).getTeachers();
+
+        return teachers;
     }
 
 }

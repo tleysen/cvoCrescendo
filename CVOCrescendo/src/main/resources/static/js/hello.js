@@ -40,9 +40,11 @@ informat.controller('aboutController', function($scope, $http) {
     $http.get('/students').success(function(data) {
         $scope.students = data;
     })
+    $http.get('/teachers').success(function(data) {
+        $scope.teachers = data;
+    })
 });
 
 informat.controller('contactController', function($scope) {
     $scope.message = 'Contact us! JK. This is just a demo.';
 });
-
