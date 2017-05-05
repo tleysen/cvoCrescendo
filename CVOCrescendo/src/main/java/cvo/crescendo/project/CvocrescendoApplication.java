@@ -1,5 +1,6 @@
 package cvo.crescendo.project;
 
+import cvo.crescendo.project.emails.SmtpMailSender;
 import cvo.crescendo.project.models.Course;
 import cvo.crescendo.project.models.Student;
 import cvo.crescendo.project.models.Teacher;

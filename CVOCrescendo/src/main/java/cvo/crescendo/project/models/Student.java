@@ -30,6 +30,12 @@ public class Student {
     public Student(){
     }
 
+    public Student(String firstName, String lastName, List<String> email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public String getId() {
         return id;
     }
