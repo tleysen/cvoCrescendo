@@ -24,7 +24,7 @@ public class InformatConnector {
 
 
     private HttpHeaders globalRequestHeaders = new HttpHeaders();
-    private final String BASE_URL= "https://testservices.informatsoftware.be/icursisten/1";
+    private final String BASE_URL = "https://testservices.informatsoftware.be/icursisten/1";
 
 
     public void Connect(String url) {
@@ -71,6 +71,27 @@ public class InformatConnector {
         List<Student> students = restTemplate.postForObject(url, requestEntity, StudentInfoResponse.class).getStudents();
 
         return students;
+    }
+
+    public List<Course> getAllCoursesByYear(String year){
+
+        String url = BASE_URL + "/course";
+        Connect(url);
+        RestTemplate restTemplate = new RestTemplate();
+
+
+        JSONObject request = new JSONObject();
+        try {
+            request.put("schoolYear", year);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpEntity<?> requestEntity = new HttpEntity(request.toString(), globalRequestHeaders);
+
+        List<Course> courses = restTemplate.postForObject(url, requestEntity, CourseInfoResponse.class).getCourses();
+
+        return courses;
     }
 
 }

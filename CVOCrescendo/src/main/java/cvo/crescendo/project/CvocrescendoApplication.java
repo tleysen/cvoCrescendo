@@ -19,19 +19,21 @@ public class CvocrescendoApplication {
         new SpringApplicationBuilder(CvocrescendoApplication.class).run(args);
     }
 
-
     @Bean
     CommandLineRunner runOnStartup(CourseRepository courseRepository, StudentRepository studentRepository) {
         return (args) -> {
 
-            //for (Course c : InformatConnector.Connect()) {
-            //    courseRepository.save(c);
-            //}
             InformatConnector informatConnector = new InformatConnector();
+
             for (Student s : informatConnector.getAllStudentsByYear("2000-2001")) {
                 studentRepository.save(s);
             }
-            SmartschoolConnector.Connect();
+
+            for (Course c : informatConnector.getAllCoursesByYear("2000-2001")) {
+                courseRepository.save(c);
+            }
+
+            //SmartschoolConnector.Connect();
         };
     }
 }
