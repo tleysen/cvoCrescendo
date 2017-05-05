@@ -7,11 +7,8 @@ import javax.mail.MessagingException;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-
 
 @RestController
 public class RootController {
@@ -24,23 +21,6 @@ public class RootController {
 
 	Student Alexander = new Student("Alexander", "Rousseeuw", email);
 
-	//private String id;
-//
-	//private String firstName;
-	//private String lastName;
-	//private String nickName;
-	//private String bankAccountNr;
-	//private Date dateOfBirth;
-	//private String sex;
-	//private String loginName;
-	//private String password;
-	//private List<String> email;
-	//private List<String> phone;
-	//private Address address;
-	//private String stamNr;
-	//private String insz;
-	//private List<Vv> vv;
-
 	private SmtpMailSender smtpMailSender;
 
 	// change list to array
@@ -51,6 +31,7 @@ public class RootController {
 	}
 
 	@RequestMapping("/send-mail")
+	//go to localhost:8080/send-mail to send the mail
 
 	public void sendMail() throws MessagingException {
 		//TESTMAIL
