@@ -1,6 +1,8 @@
 <!-- contact.html -->
 <div class="jumbotron text-center">
-    <h1>Contact Page</h1>
-
-    <p>{{ message }}</p>
+    <form method="post" ng-controller="contactController" style="display: inline-block;">
+        <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel" style="width: 870px;"></textarea>
+        <button ng-click="getContent()">Get content</button>
+        <button ng-click="setContent()">Set content</button>
+    </form>
 </div>

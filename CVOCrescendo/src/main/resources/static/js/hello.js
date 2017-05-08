@@ -2,7 +2,7 @@
 
 // create the module and name it informat
 // also include ngRoute for all our routing needs
-var informat = angular.module('informat', ['ngRoute']);
+var informat = angular.module('informat', ['ngRoute','ui.tinymce']);
 
 // configure our routes
 informat.config(function($routeProvider) {
@@ -46,5 +46,15 @@ informat.controller('aboutController', function($scope, $http) {
 });
 
 informat.controller('contactController', function($scope) {
-    $scope.message = 'Contact us! JK. This is just a demo.';
+    $scope.tinymceModel = 'Initial content';
+
+
+    $scope.setContent = function() {
+        $scope.tinymceModel = 'Time: ' + (new Date());
+    };
+
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
 });
