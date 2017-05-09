@@ -103,9 +103,27 @@ public class InformatConnector {
 
         HttpEntity<?> requestEntity = new HttpEntity(request.toString(), globalRequestHeaders);
 
+        System.out.println(requestEntity);
+
         List<Teacher> teachers = restTemplate.postForObject(url, requestEntity, TeacherInfoResponse.class).getTeachers();
 
         return teachers;
+    }
+
+    public Student getStudentDetails(String studentID){
+
+        String url = BASE_URL + "/student/" + studentID;
+        Connect(url);
+        System.out.println(url);
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpEntity<?> requestEntity = new HttpEntity(globalRequestHeaders);
+        System.out.println(requestEntity);
+
+        Student s = restTemplate.postForObject(url, requestEntity, Student.class);
+        System.out.println(s);
+
+        return s;
     }
 
 }

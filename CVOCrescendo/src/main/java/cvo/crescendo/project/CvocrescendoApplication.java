@@ -28,9 +28,9 @@ public class CvocrescendoApplication {
 
             //year formatting is very important:
 
-            for (Student s : informatConnector.getAllStudentsByYear("2014-15")) {
-                studentRepository.save(s);
-            }
+            //for (Student s : informatConnector.getAllStudentsByYear("2014-15")) {
+            //    studentRepository.save(s);
+            //}
 
             for (Course c : informatConnector.getAllCoursesByYear("2014-15")) {
                 courseRepository.save(c);
@@ -40,7 +40,9 @@ public class CvocrescendoApplication {
                 teacherRepository.save(t);
             }
 
-            //SmartschoolConnector.Connect();
+            Student s = informatConnector.getStudentDetails("475b0949-2238-49e3-95ef-62029057a5a1");
+            studentRepository.save(s);
+
         };
     }
 }
